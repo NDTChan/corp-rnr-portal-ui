@@ -1,0 +1,569 @@
+// Override Boostrap variables
+// Import Bootstrap source files from node_modules
+@import '~bootstrap/scss/bootstrap';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  /*font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;*/
+  font-family: "Roboto", "sans-serif", "PingFang SC", "Heiti TC", "微軟正黑體", "Microsoft JhengHei", "Arial Unicode MS", "Arial";
+  background-color: #ffd400;
+  font-weight: 400;
+  font-size: 18px;
+  color: #000;
+  /*line-height: 3.5rem;*/
+  line-height: 1.5;
+  letter-spacing: 0px;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  /*color: #858585;*/
+  /*background-image: url(../images/bg-img_500.png);
+    background-position: center top;
+    background-repeat: repeat-x;
+    background-size: 100% auto;*/
+}
+
+.txt-en {
+  font-weight: 400;
+  font-size: 1.5rem;
+  /*line-height: 3.5rem;*/
+  line-height: 2.0rem;
+  letter-spacing: 0px;
+}
+
+.txt-xs {
+  font-weight: 500;
+  font-size: 1.4rem;
+  /*line-height: 3.5rem;*/
+  line-height: 2rem;
+  letter-spacing: 1px;
+}
+
+input,
+input::-webkit-input-placeholder {
+  font-size: 1.4rem;
+}
+
+input::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #333;
+}
+
+input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #333;
+}
+
+input:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #333;
+}
+
+input:-moz-placeholder {
+  /* Firefox 18- */
+  color: #333;
+}
+
+input {
+  padding: 5px;
+  border: 1px;
+  border-color: #131313;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  color: #000;
+  /*width: 100%;*/
+}
+
+/*label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: 100;
+}*/
+.well {
+  min-height: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #474747;
+  /*border: 1px solid #e3e3e3;*/
+  border-radius: 0px;
+  border: 0px;
+}
+
+.well-error {
+  min-height: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #f7931e;
+  /*font-size: 120%;
+    border: 1px solid #e3e3e3;*/
+  border-radius: 10px;
+  border: 0px;
+  color: #fff;
+}
+
+.well-title {
+  min-height: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #fdd405;
+  font-size: 120%;
+  /*border: 1px solid #e3e3e3;*/
+  border-radius: 10px;
+  border: 0px;
+  color: #3a3a3c;
+}
+
+.well-tel {
+  min-height: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #000;
+  font-size: 10%;
+  /*border: 1px solid #e3e3e3;*/
+  border-radius: 10px;
+  border: 0px;
+  color: #fdd405;
+}
+
+.well-table {
+  padding: 20px;
+  margin: 0px;
+  background-color: #fff;
+  /*font-size: 120%;
+    border: 1px solid #e3e3e3;*/
+  border-radius: 15px;
+  border: 0px;
+  color: #3a3a3c;
+}
+
+.well-img {
+  padding: 10px;
+  border: 1px solid #e3e3e3;
+  border-radius: 0px;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+  display: block;
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  /*-webkit-padding-start: 40px;*/
+  margin-top: 0;
+}
+
+li {
+  display: inline;
+}
+
+.inline-block div {
+  color: #fff !important;
+  display: inline-block;
+}
+
+.social-link {
+  margin-bottom: 0;
+  padding-top: 25px;
+}
+
+.social-link li a img {
+  max-height: 40px !important;
+}
+
+img {
+  max-width: 100%;
+}
+
+.badge {
+  height: 40px;
+  width: 40px;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+  /* may require vendor prefixes */
+  background-color: #fdd405;
+  color: #3a3a3c;
+  font-size: 18px;
+}
+
+a {
+  color: #fed307;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: #fff;
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.secondary-footer {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.dont-break-out {
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mandatory_star {
+  color: #383838;
+  ont-size: 10%;
+}
+
+/* The container */
+.container-r {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container-r input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.checkmark-disable {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #000;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container-r:hover input~.checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container-r input:checked~.checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container-r input:checked~.checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container-r .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+.table-info-bg {
+  padding: 10px;
+  background-color: #F5F5F5;
+}
+
+.table-info-bg2 {
+  padding: 10px;
+  background-color: #E8E8E8;
+}
+
+.table-gift-bg {
+  background-color: #faa71b;
+  color: #fff;
+  padding: 10px;
+}
+
+.vcenter {}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(200, 200, 200, 1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #fff;
+  -webkit-box-shadow: inset 0 0 6px rgba(90, 90, 90, 0.7);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(200, 200, 200, 1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #fff;
+  -webkit-box-shadow: inset 0 0 6px rgba(90, 90, 90, 0.7);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(200, 200, 200, 1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #fff;
+  -webkit-box-shadow: inset 0 0 6px rgba(90, 90, 90, 0.7);
+}
+
+a[href^=tel] {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+.title-info {
+  border-radius: 50px;
+  background: #4c4c4c;
+  padding: 15px;
+  color: #fff;
+  font-weight: 800;
+  width: 100%;
+}
+
+.price-info {
+  border-radius: 10px;
+  background: #fdb409;
+  padding: 15px;
+  color: #000;
+  margin-bottom: 5px;
+}
+
+.form-radio {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  position: relative;
+  background-color: #fff;
+  color: #fed401;
+  top: 10px;
+  height: 30px;
+  width: 30px;
+  border: 2px #FFFFFF;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-right: 7px;
+  outline: none;
+  padding-right: 5px
+}
+
+.form-radio:checked::before {
+  position: absolute;
+  font: 15px/1 'Open Sans', sans-serif;
+  /*font-weight: 700;*/
+  left: 10px;
+  top: 6px;
+  content: '\02143';
+  transform: rotate(40deg);
+  color: #fed401;
+}
+
+.form-radio:hover {
+  background-color: #fff;
+}
+
+.form-radio:checked {
+  background-color: #333333;
+}
+
+a[href^=tel] {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+input.g-checkbox {
+  /* width : 40px;
+    height : 40px;
+	margin: 5px;*/
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  background-color: #fff;
+  border: 2px solid #c1c1c1;
+  font-size: 1px;
+  height: 24px;
+  /*position: absolute;*/
+  width: 24px;
+  z-index: 1;
+  margin: 5px;
+}
+
+.form-pd {
+  padding: 15px 15px 0 15px;
+}
+
+.bold-text-600 {
+  font-weight: 600;
+}
+
+form.rnrForm fieldset fieldset {
+  background: #000;
+}
+
+form.rnrForm label.error,
+label.error {
+  /* remove the next line when you have trouble in IE6 with labels in list */
+  color: #cc0505;
+  font-weight: 500;
+  font-style: italic;
+  padding: 5px 5px;
+  font-size: 85%;
+}
+
+input.error {
+  border: 2px solid #cc0505;
+}
+
+input:focus {
+  /*border: 1px dotted black;*/
+}
+
+.help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  color: #cc0505;
+  font-size: 85%;
+}
+
+label {
+  display: block;
+  /*max-width: 100%;*/
+  margin-bottom: 0px;
+  font-weight: 100;
+}
+
+.mandatory-star {
+  color: #cc0505;
+  font-size: 120%;
+}
+
+#disclaimer-error,
+#disclaimerNoHkid-error {
+  padding-left: 20px;
+}
+
+div.DialogMask {
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  background-color: #606060;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  -moz-opacity: .5;
+  opacity: .5;
+  background-image: url('../content/images/app_loading.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100px 100px;
+}
+
+.btn-lang {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 82px;
+  height: 46px;
+}
+
+input[type=radio] {
+  transform: scale(1.5);
+  margin-top: 8px;
+}
+
+h2 {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #000;
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+  font-size: 20px;
+}
+
+h2 span {
+  background: #ffd400;
+  padding: 0 10px;
+}
+
+.ui-icon {
+  //background-image: url(../css/images/ui-icons_cc0000_256x240.png) !important;
+}
+
+.ui-widget-overlay {
+  opacity: 0.5 !important;
+}
+
+.ui-dialog-title-bg {
+  background-color: #ffd400;
+}
