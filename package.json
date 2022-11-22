@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "description": "",
-  "main": "index.js",
-  "author": "",
-  "license": "ISC",
+  "author": "TeaHan",
+  "license": "TEA CORP",
   "scripts": {
     "start": "npm run webapp:dev --",
     "start-tls": "npm run webapp:dev -- --env tls",
