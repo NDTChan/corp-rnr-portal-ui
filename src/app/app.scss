@@ -1,7 +1,6 @@
-// Override Boostrap variables
-// Import Bootstrap source files from node_modules
+@charset "UTF-8";
 @import '~bootstrap/scss/bootstrap';
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 html,
 body {
   height: 100%;
@@ -16,7 +15,7 @@ body {
   color: #000;
   /*line-height: 3.5rem;*/
   line-height: 1.5;
-  letter-spacing: 0px;
+  letter-spacing: 0;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -280,12 +279,12 @@ a:focus {
 }
 
 /* On mouse-over, add a grey background color */
-.container-r:hover input~.checkmark {
+.container-r:hover input ~ .checkmark {
   background-color: #ccc;
 }
 
 /* When the radio button is checked, add a blue background */
-.container-r input:checked~.checkmark {
+.container-r input:checked ~ .checkmark {
   background-color: #2196F3;
 }
 
@@ -297,7 +296,7 @@ a:focus {
 }
 
 /* Show the indicator (dot/circle) when checked */
-.container-r input:checked~.checkmark:after {
+.container-r input:checked ~ .checkmark:after {
   display: block;
 }
 
@@ -327,7 +326,8 @@ a:focus {
   padding: 10px;
 }
 
-.vcenter {}
+.vcenter {
+}
 
 ::-webkit-scrollbar {
   width: 12px;
@@ -527,14 +527,6 @@ div.DialogMask {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100px 100px;
-}
-
-.btn-lang {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 82px;
-  height: 46px;
 }
 
 input[type=radio] {

@@ -50,7 +50,7 @@ module.exports = async options =>
       proxy: [
         {
           context: ["/rnr-portal", "/rnr-portal-sit"],
-          target: `https://10.168.12.103`,
+          target: `https://shopuat.1010.com.hk`,
           secure: false,
           changeOrigin: options.tls
         }
