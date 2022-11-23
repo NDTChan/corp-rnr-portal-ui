@@ -1,6 +1,6 @@
-import {translate} from 'react-jhipster';
-import {toast} from 'react-toastify';
-import {isFulfilledAction, isRejectedAction} from 'app/shared/reducers/reducer.utils';
+import { translate } from 'react-jhipster';
+import { toast } from 'react-toastify';
+import { isFulfilledAction, isRejectedAction } from 'app/shared/reducers/reducer.utils';
 
 const addErrorAlert = (message, key?, data?) => {
   key = key ? key : message;
@@ -8,7 +8,7 @@ const addErrorAlert = (message, key?, data?) => {
 };
 
 export default () => next => action => {
-  const {error, payload} = action;
+  const { error, payload } = action;
 
   /**
    *
@@ -19,16 +19,16 @@ export default () => next => action => {
     let alert: string | null = null;
     let alertParams: string | null = null;
     headers &&
-    Object.entries<string>(headers).forEach(([k, v]) => {
-      if (k.toLowerCase().endsWith('app-alert')) {
-        alert = v;
-      } else if (k.toLowerCase().endsWith('app-params')) {
-        alertParams = decodeURIComponent(v.replace(/\+/g, ' '));
-      }
-    });
+      Object.entries<string>(headers).forEach(([k, v]) => {
+        if (k.toLowerCase().endsWith('app-alert')) {
+          alert = v;
+        } else if (k.toLowerCase().endsWith('app-params')) {
+          alertParams = decodeURIComponent(v.replace(/\+/g, ' '));
+        }
+      });
     if (alert) {
       const alertParam = alertParams;
-      toast.success(translate(alert, {param: alertParam}));
+      toast.success(translate(alert, { param: alertParam }));
     }
   }
 
@@ -52,16 +52,16 @@ export default () => next => action => {
             let errorHeader: string | null = null;
             let entityKey: string | null = null;
             response?.headers &&
-            Object.entries<string>(response.headers).forEach(([k, v]) => {
-              if (k.toLowerCase().endsWith('app-error')) {
-                errorHeader = v;
-              } else if (k.toLowerCase().endsWith('app-params')) {
-                entityKey = v;
-              }
-            });
+              Object.entries<string>(response.headers).forEach(([k, v]) => {
+                if (k.toLowerCase().endsWith('app-error')) {
+                  errorHeader = v;
+                } else if (k.toLowerCase().endsWith('app-params')) {
+                  entityKey = v;
+                }
+              });
             if (errorHeader) {
               const entityName = translate('global.menu.entities.' + entityKey);
-              addErrorAlert(errorHeader, errorHeader, {entityName});
+              addErrorAlert(errorHeader, errorHeader, { entityName });
             } else if (data?.fieldErrors) {
               const fieldErrors = data.fieldErrors;
               for (const fieldError of fieldErrors) {
@@ -71,7 +71,7 @@ export default () => next => action => {
                 // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
                 const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
                 const fieldName = translate(`corpRnrPortalApp.${fieldError.objectName}.${convertedField}`);
-                addErrorAlert(`Error on field "${fieldName}"`, `error.${fieldError.message}`, {fieldName});
+                addErrorAlert(`Error on field "${fieldName}"`, `error.${fieldError.message}`, { fieldName });
               }
             } else if (typeof data === 'string' && data !== '') {
               addErrorAlert(data);

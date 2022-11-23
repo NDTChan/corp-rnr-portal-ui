@@ -1,11 +1,11 @@
 import React from 'react';
-import {createRoot} from 'react-dom/client';
-import ErrorBoundary from "app/shared/error/error-boundary";
-import {Provider} from "react-redux";
-import {registerLocale} from "app/config/translation";
-import getStore from "app/config/store";
-import {loadIcons} from "app/config/icon-loader";
-import App from "app/app";
+import { createRoot } from 'react-dom/client';
+import ErrorBoundary from 'app/shared/error/error-boundary';
+import { Provider } from 'react-redux';
+import { registerLocale } from 'app/config/translation';
+import getStore from 'app/config/store';
+import { loadIcons } from 'app/config/icon-loader';
+import App from 'app/app';
 
 const store = getStore();
 registerLocale(store);
@@ -20,7 +20,7 @@ const render = Component =>
     <ErrorBoundary>
       <Provider store={store}>
         <div>
-          <Component/>
+          <Component />
         </div>
       </Provider>
     </ErrorBoundary>
