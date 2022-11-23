@@ -1,11 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
-const {merge} = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const {hashElement} = require('folder-hash');
+const { hashElement } = require('folder-hash');
 const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
 const utils = require('./utils.js');
 const environment = require('./environment');
@@ -37,7 +37,7 @@ module.exports = async options => {
   const languagesHash = await hashElement(path.resolve(__dirname, '../src/i18n'), {
     algo: 'md5',
     encoding: 'hex',
-    files: {include: ['*.json']},
+    files: { include: ['*.json'] },
   });
 
   return merge(
@@ -122,11 +122,11 @@ module.exports = async options => {
             //   to: 'swagger-ui/',
             // },
             // {from: './src/swagger-ui/', to: 'swagger-ui/'},
-            {from: './src/content/', to: 'content/'},
-            {from: './src/favicon.ico', to: 'favicon.ico'},
-            {from: './src/manifest.webapp', to: 'manifest.webapp'},
+            { from: './src/content/', to: 'content/' },
+            { from: './src/favicon.ico', to: 'favicon.ico' },
+            { from: './src/manifest.webapp', to: 'manifest.webapp' },
             // jhipster-needle-add-assets-to-webpack - JHipster will add/remove third-party resources in this array
-            {from: './src/robots.txt', to: 'robots.txt'},
+            { from: './src/robots.txt', to: 'robots.txt' },
           ],
         }),
         new HtmlWebpackPlugin({
@@ -138,8 +138,8 @@ module.exports = async options => {
         new MergeJsonWebpackPlugin({
           output: {
             groupBy: [
-              {pattern: './src/i18n/en/*.json', fileName: './i18n/en.json'},
-              {pattern: './src/i18n/zh-cn/*.json', fileName: './i18n/zh-cn.json'},
+              { pattern: './src/i18n/en/*.json', fileName: './i18n/en.json' },
+              { pattern: './src/i18n/zh-cn/*.json', fileName: './i18n/zh-cn.json' },
               // jhipster-needle-i18n-language-webpack - JHipster will add/remove languages in this array
             ],
           },

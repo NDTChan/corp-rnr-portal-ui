@@ -1,8 +1,8 @@
 import axios from 'axios';
 import dayjs from 'dayjs';
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import {TranslatorContext} from 'react-jhipster';
+import { TranslatorContext } from 'react-jhipster';
 
 const initialState = {
   currentLocale: '',
@@ -16,13 +16,13 @@ export type LocaleState = Readonly<typeof initialState>;
 
 const loadLocaleAndRegisterLocaleFile = async (locale: string, prefix: string) => {
   if (prefix || !Object.keys(TranslatorContext.context.translations).includes(locale)) {
-    const response = await axios.get(`${prefix}i18n/${locale}.json?_=${I18N_HASH}`, {baseURL: ''});
+    const response = await axios.get(`${prefix}i18n/${locale}.json?_=${I18N_HASH}`, { baseURL: '' });
     TranslatorContext.registerTranslations(locale, response.data);
   }
 };
 
 export const setLocale = createAsyncThunk('locale/setLocale', async (locale: string, thunkAPI: any) => {
-  const {sourcePrefixes, loadedKeys, loadedLocales} = thunkAPI.getState().locale;
+  const { sourcePrefixes, loadedKeys, loadedLocales } = thunkAPI.getState().locale;
   if (!loadedLocales.includes(locale)) {
     const keys = (
       await Promise.all(
@@ -34,7 +34,7 @@ export const setLocale = createAsyncThunk('locale/setLocale', async (locale: str
         })
       )
     ).filter(Boolean);
-    thunkAPI.dispatch(loaded({keys, locale}));
+    thunkAPI.dispatch(loaded({ keys, locale }));
   }
   thunkAPI.dispatch(updateLocale(locale));
   return locale;
@@ -43,12 +43,12 @@ export const setLocale = createAsyncThunk('locale/setLocale', async (locale: str
 export const addTranslationSourcePrefix = createAsyncThunk(
   'locale/addTranslationSourcePrefix',
   async (sourcePrefix: string, thunkAPI: any) => {
-    const {currentLocale, loadedKeys, sourcePrefixes} = thunkAPI.getState().locale;
+    const { currentLocale, loadedKeys, sourcePrefixes } = thunkAPI.getState().locale;
     const key = `${sourcePrefix}${currentLocale}`;
     if (!sourcePrefixes.includes(sourcePrefix)) {
       if (!loadedKeys.includes(key)) {
         await loadLocaleAndRegisterLocaleFile(currentLocale, sourcePrefix);
-        thunkAPI.dispatch(loaded({sourcePrefix, keys: [key]}));
+        thunkAPI.dispatch(loaded({ sourcePrefix, keys: [key] }));
       }
     }
     return key;
@@ -68,7 +68,7 @@ export const LocaleSlice = createSlice({
       state.currentLocale = currentLocale;
     },
     loaded(state, action) {
-      const {keys, locale, sourcePrefix} = action.payload;
+      const { keys, locale, sourcePrefix } = action.payload;
       if (sourcePrefix && !state.sourcePrefixes.includes(sourcePrefix)) {
         state.sourcePrefixes = state.sourcePrefixes.concat(sourcePrefix);
       }
@@ -83,7 +83,7 @@ export const LocaleSlice = createSlice({
   },
 });
 
-export const {updateLocale, loaded} = LocaleSlice.actions;
+export const { updateLocale, loaded } = LocaleSlice.actions;
 
 // Reducer
 export default LocaleSlice.reducer;

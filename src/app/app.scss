@@ -8,7 +8,7 @@ body {
 
 body {
   /*font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;*/
-  font-family: "Roboto", "sans-serif", "PingFang SC", "Heiti TC", "微軟正黑體", "Microsoft JhengHei", "Arial Unicode MS", "Arial";
+  font-family: 'Roboto', 'sans-serif', 'PingFang SC', 'Heiti TC', '微軟正黑體', 'Microsoft JhengHei', 'Arial Unicode MS', 'Arial';
   background-color: #ffd400;
   font-weight: 400;
   font-size: 18px;
@@ -30,7 +30,7 @@ body {
   font-weight: 400;
   font-size: 1.5rem;
   /*line-height: 3.5rem;*/
-  line-height: 2.0rem;
+  line-height: 2rem;
   letter-spacing: 0px;
 }
 
@@ -285,12 +285,12 @@ a:focus {
 
 /* When the radio button is checked, add a blue background */
 .container-r input:checked ~ .checkmark {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .checkmark:after {
-  content: "";
+  content: '';
   position: absolute;
   display: none;
 }
@@ -312,12 +312,12 @@ a:focus {
 
 .table-info-bg {
   padding: 10px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 .table-info-bg2 {
   padding: 10px;
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
 }
 
 .table-gift-bg {
@@ -374,7 +374,7 @@ a:focus {
   -webkit-box-shadow: inset 0 0 6px rgba(90, 90, 90, 0.7);
 }
 
-a[href^=tel] {
+a[href^='tel'] {
   text-decoration: inherit;
   color: inherit;
 }
@@ -407,12 +407,12 @@ a[href^=tel] {
   top: 10px;
   height: 30px;
   width: 30px;
-  border: 2px #FFFFFF;
+  border: 2px #ffffff;
   border-radius: 50px;
   cursor: pointer;
   margin-right: 7px;
   outline: none;
-  padding-right: 5px
+  padding-right: 5px;
 }
 
 .form-radio:checked::before {
@@ -434,7 +434,7 @@ a[href^=tel] {
   background-color: #333333;
 }
 
-a[href^=tel] {
+a[href^='tel'] {
   text-decoration: inherit;
   color: inherit;
 }
@@ -521,15 +521,15 @@ div.DialogMask {
   z-index: 50;
   background-color: #606060;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
-  -moz-opacity: .5;
-  opacity: .5;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
   background-image: url('../content/images/app_loading.gif');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100px 100px;
 }
 
-input[type=radio] {
+input[type='radio'] {
   transform: scale(1.5);
   margin-top: 8px;
 }

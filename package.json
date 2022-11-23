@@ -10,7 +10,6 @@
     "start-tls": "npm run webapp:dev -- --env tls",
     "build": "npm run webapp:prod --",
     "test": "npm run jest --",
-
     "jest": "jest --coverage --logHeapUsage --maxWorkers=2 --config jest.conf.js",
     "jest:update": "npm run jest -- --updateSnapshot",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
@@ -18,7 +17,6 @@
     "prepare": "husky install",
     "prettier:check": "prettier --check \"{,src/**/,webpack/,.blueprint/**/}*.{md,json,yml,html,cjs,mjs,js,ts,tsx,css,scss,java}\"",
     "prettier:format": "prettier --write \"{,src/**/,webpack/,.blueprint/**/}*.{md,json,yml,html,cjs,mjs,js,ts,tsx,css,scss,java}\"",
-
     "pretest": "npm run lint",
     "test-ci": "npm run lint && npm run jest:update --",
     "test:watch": "npm run jest -- --watch",
@@ -41,7 +39,7 @@
     "path-browserify": "1.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "7.30.0",
+    "react-hook-form": "^7.30.0",
     "react-jhipster": "0.22.0",
     "react-loadable": "5.5.0",
     "react-redux": "8.0.2",
