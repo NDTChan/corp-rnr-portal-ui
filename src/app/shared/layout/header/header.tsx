@@ -1,7 +1,7 @@
 import "./header.scss";
 
 import React from "react";
-import { Storage } from "react-jhipster";
+import { Storage, Translate } from "react-jhipster";
 
 import { useAppDispatch } from "app/config/store";
 import { setLocale } from "app/shared/reducers/locale";
@@ -49,7 +49,7 @@ const Header = (props: IHeaderProps) => {
       </div>
       <div className="btn-lang" id="lang-container">
         <button type={"button"} className={"btn btn-light"} onClick={() => handleLocaleChange()}>
-          <FontAwesomeIcon icon="flag" />
+          <FontAwesomeIcon icon="flag" />&nbsp;
           <span>{currentLocale ? languages[currentLocale].name : undefined}</span>
         </button>
       </div>
@@ -63,25 +63,17 @@ const Header = (props: IHeaderProps) => {
           className="row form-pd"
           style={{ paddingTop: "50px", paddingBottom: "50px" }}
         >
-          <div className="col-md-7 col-xs-12">
+          <div className="col-md-1 col-xs-12"/>
+          <div className="col-md-6 col-xs-12">
             <p style={{ padding: "20px" }}>
-                  <span
-                  >Thank you for choosing our services! Under the
-                    Telecommunications (Registration of SIM Cards) Regulation,
-                    you are required to submit the personal information and
-                    identity document copy of Responsible Person to complete the
-                    Real-Name Registration process.</span
-                  >
+              <Translate contentKey={"header.thanks"} />
             </p>
           </div>
-          <div className="col-md-5 col-xs-12 well note">
-            <p>
-              <FontAwesomeIcon icon={faInfoCircle} />
-              <span>
-                Please note that the mobile service cannot be activated until registration has been successfully completed.
-            </span>
-            </p>
+          <div className="col-md-4 col-xs-12 well note">
+            <FontAwesomeIcon icon={faInfoCircle} />&nbsp;
+            <Translate contentKey={"header.warning"} />
           </div>
+          <div className="col-md-1 col-xs-12"/>
         </div>
       </div>
     </div>
