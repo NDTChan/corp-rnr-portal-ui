@@ -34,8 +34,7 @@ const Header = (props: IHeaderProps) => {
       <div
         id="carousel1"
         className="carousel slide visible-md visible-lg"
-        data-ride="carousel"
-      >
+        data-ride="carousel">
         <div className="carousel-inner">
           <div className="item active">
             <img
