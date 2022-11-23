@@ -1,7 +1,7 @@
-import "./footer.scss";
+import './footer.scss';
 
 import React from 'react';
-import { Translate } from "react-jhipster";
+import { Translate } from 'react-jhipster';
 
 const Footer = () => (
   <div id="app-footer" className="footer-container">
@@ -9,10 +9,12 @@ const Footer = () => (
       <br />
       <div className="container">
         <div className="text-light align-center">
-          <h4 className="font-size-18px"><Translate contentKey={"footer.findUs"}/></h4>
+          <h4 className="font-size-18px">
+            <Translate contentKey={'footer.findUs'} />
+          </h4>
         </div>
         <br />
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: 'center' }}>
           <a target="_blank" href="https://1010corporate.com/">
             <img src="content/images/icon-1O1O.png" alt="" width="40" />
           </a>
@@ -36,12 +38,12 @@ const Footer = () => (
         <div className="row">
           <div className="col-md-12 align-center align-center">
             <span className="m-top-10 font-size-70">
-              <Translate contentKey={"footer.csl"} />
+              <Translate contentKey={'footer.csl'} />
             </span>
           </div>
         </div>
       </div>
     </div>
   </div>
-)
+);
 export default Footer;
