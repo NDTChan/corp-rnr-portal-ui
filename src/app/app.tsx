@@ -12,9 +12,12 @@ import Organisation from 'app/modules/organisation/organisation';
 import Personal from 'app/modules/personal/personal';
 import Declaration from 'app/modules/declaration/declaration';
 import Policy from 'app/modules/policy/policy';
+// import { useForm } from 'react-hook-form';
 
 export const App = () => {
   const currentLocale = useAppSelector(state => state.locale.currentLocale);
+
+  // const methods = useForm();
 
   return (
     <div className="app-container">
