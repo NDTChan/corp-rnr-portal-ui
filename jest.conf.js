@@ -44,7 +44,6 @@ function mapTypescriptAliasToJestAlias(alias = {}) {
     .filter(([key, value]) => {
       // use Typescript alias in Jest only if this has value
       return !!value.length;
-
     })
     .map(([key, value]) => {
       // if Typescript alias ends with /* then in Jest:

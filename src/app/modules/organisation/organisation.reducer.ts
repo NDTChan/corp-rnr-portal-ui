@@ -5,7 +5,7 @@ import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import { getParamStateWithQueryParams } from 'app/shared/util/entity-utils';
 
 const initialState = {
-  loading: false,
+  loading: true,
   errorMessage: null,
   data: defaultValue,
   rnrToken: null,

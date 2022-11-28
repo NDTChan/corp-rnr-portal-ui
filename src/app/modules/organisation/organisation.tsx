@@ -3,13 +3,26 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getPayload } from './organisation.reducer';
 import _ from 'lodash';
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
 
 const Organisation = () => {
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(getPayload());
-  }, []);
+  const isFetching = useAppSelector(state => state.organisationReducer.loading);
   const payload = useAppSelector(state => state.organisationReducer.data);
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(getPayload());
+    }, 5000);
+  }, []);
+
+  // useEffect(() => {
+  //   _.isBoolean(isFetching) && isFetching ? dispatch(showLoading()) : dispatch(hideLoading());
+  //   // return () => {
+  //   //   dispatch(resetLoading());
+  //   // };
+  // }, [isFetching]);
+
   const { orderInfo, orgInfo, rnrInfo } = payload.cordPayload;
   const rnrLevel = rnrInfo.rnrLevel;
   const planType = orderInfo.planType;
