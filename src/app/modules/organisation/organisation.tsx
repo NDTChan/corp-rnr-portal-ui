@@ -11,17 +11,12 @@ const Organisation = () => {
   const payload = useAppSelector(state => state.organisationReducer.data);
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(getPayload());
-    }, 5000);
+    dispatch(getPayload());
   }, []);
 
-  // useEffect(() => {
-  //   _.isBoolean(isFetching) && isFetching ? dispatch(showLoading()) : dispatch(hideLoading());
-  //   // return () => {
-  //   //   dispatch(resetLoading());
-  //   // };
-  // }, [isFetching]);
+  useEffect(() => {
+    _.isBoolean(isFetching) && isFetching ? dispatch(showLoading()) : dispatch(hideLoading());
+  }, [isFetching]);
 
   const { orderInfo, orgInfo, rnrInfo } = payload.cordPayload;
   const rnrLevel = rnrInfo.rnrLevel;
