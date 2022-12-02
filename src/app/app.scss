@@ -529,10 +529,10 @@ label {
   background-size: 100px 100px;
 }
 
-input[type='radio'] {
-  transform: scale(1.5);
-  margin-top: 8px;
-}
+//input[type='radio'] {
+//  transform: scale(1.5);
+//  margin-top: 8px;
+//}
 
 h2 {
   width: 100%;
@@ -546,4 +546,21 @@ h2 {
 h2 span {
   background: #ffd400;
   padding: 0 10px;
+}
+
+.line-separate {
+  border: 1px solid #fff;
+  opacity: inherit;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
 }

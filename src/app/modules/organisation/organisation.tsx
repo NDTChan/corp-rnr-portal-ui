@@ -4,14 +4,17 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getPayload } from './organisation.reducer';
 import _ from 'lodash';
 import { hideLoading, showLoading } from 'react-redux-loading-bar';
+import { getParamStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { getOcrPermission } from 'app/shared/reducers/ocr-permission';
 
 const Organisation = () => {
   const dispatch = useAppDispatch();
-  const isFetching = useAppSelector(state => state.organisationReducer.loading);
-  const payload = useAppSelector(state => state.organisationReducer.data);
+  const isFetching = useAppSelector(state => state.organisation.loading);
+  const payload = useAppSelector(state => state.organisation.data);
 
   useEffect(() => {
-    dispatch(getPayload());
+    const rnrToken = getParamStateWithQueryParams('token', location.search);
+    dispatch(getOcrPermission(rnrToken)).then(() => dispatch(getPayload(rnrToken)));
   }, []);
 
   useEffect(() => {

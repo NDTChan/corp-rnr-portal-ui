@@ -29,6 +29,7 @@ export const App = () => {
       <div className="container" id="app-view-container">
         <ErrorBoundary>
           <Organisation />
+          <br />
           <Personal />
           <Declaration />
           <Policy />

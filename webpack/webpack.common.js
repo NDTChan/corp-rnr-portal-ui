@@ -98,7 +98,7 @@ module.exports = async options => {
           I18N_HASH: JSON.stringify(languagesHash.hash),
           DEVELOPMENT: JSON.stringify(development),
           VERSION: JSON.stringify(environment.VERSION),
-          SERVER_API_URL: JSON.stringify(environment.SERVER_API_URL),
+          SERVER_API_URL: JSON.stringify(environment.SERVER_API_URL + (development ? '/rnr-portal' : '/rnr-portal-sit') + '/apis'),
         }),
         new ESLintPlugin({
           baseConfig: {

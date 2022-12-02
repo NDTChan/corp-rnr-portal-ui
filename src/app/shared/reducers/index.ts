@@ -1,10 +1,12 @@
 import { ReducersMapObject } from '@reduxjs/toolkit';
 import { loadingBarReducer as loadingBar } from 'react-redux-loading-bar';
-import organisationReducer from 'app/modules/organisation/organisation.reducer';
+import organisation from 'app/modules/organisation/organisation.reducer';
+import ocrPermission from 'app/shared/reducers/ocr-permission';
 import locale from './locale';
 
 const rootReducer: ReducersMapObject = {
-  organisationReducer,
+  ocrPermission,
+  organisation,
   locale,
   loadingBar,
 };
