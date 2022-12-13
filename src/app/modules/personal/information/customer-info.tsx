@@ -5,37 +5,59 @@ import { useFormContext } from 'react-hook-form';
 import _ from 'lodash';
 import { IOcrFileUpload } from 'app/shared/model/ocr-file-upload.model';
 import { DOC_TYPE, PATTERN } from 'app/config/constants';
+import dayjs from 'dayjs';
 
 const CustomerInfo = () => {
-  const { register, setValue, getValues } = useFormContext();
+  const { register, setValue, resetField } = useFormContext();
+  const [isDisclaimerChineseChecked, setIsDisclaimerChineseChecked] = React.useState(false);
+
   const payload: IOcrFileUpload = useAppSelector(state => state.personal.data);
-  const rnrInfo = !_.isUndefined(payload) ? payload.rnrInfo : undefined;
+  let docType = '';
 
-  const { rpFamilyNameEng, rpGivenNameEng, rpFamilyNameChi, rpGivenNameChi, rpDocNo, rpDob, rpDocType } = rnrInfo;
-  setValue('rpFamilyNameEng', rpFamilyNameEng);
-  setValue('rpGivenNameEng', rpGivenNameEng);
-  setValue('rpFamilyNameChi', rpFamilyNameChi);
-  setValue('rpGivenNameChi', rpGivenNameChi);
+  React.useEffect(() => {
+    const rnrInfo = !_.isUndefined(payload) ? payload.rnrInfo : undefined;
+    const { rpFamilyNameEng, rpGivenNameEng, rpFamilyNameChi, rpGivenNameChi, rpDocNo, rpDob, rpDocType } = rnrInfo;
+    docType = rpDocType;
 
-  if (_.isEmpty(rpFamilyNameChi) || _.isEmpty(rpGivenNameChi)) {
-    setValue('disclaimerNoChineseName', true);
-  }
+    setValue('rpFamilyNameEng', rpFamilyNameEng);
+    setValue('rpGivenNameEng', rpGivenNameEng);
 
-  if (_.isEqual(rpDocType, DOC_TYPE.PASSPORT)) {
-    setValue('rpPassport', rpDocNo);
-  } else {
-    const matchResult = rpDocNo.match(PATTERN.HKID);
-    setValue('rpID1', matchResult[1]);
-    setValue('rpID2', matchResult[2]);
-    setValue('rpID3', matchResult[3]);
-  }
+    if (!isDisclaimerChineseChecked) {
+      setValue('rpFamilyNameChi', rpFamilyNameChi);
+      setValue('rpGivenNameChi', rpGivenNameChi);
+    }
 
-  if (!_.isEmpty(rpDob) && PATTERN.DOB.test(rpDob)) {
-    const matchResult = rpDob.match(PATTERN.DOB);
-    setValue('rpDobD', matchResult[1]);
-    setValue('rpDobM', matchResult[2]);
-    setValue('rpDobY', matchResult[3]);
-  }
+    if (_.isEmpty(rpFamilyNameChi) || _.isEmpty(rpGivenNameChi)) {
+      setValue('disclaimerNoChineseName', true);
+    }
+
+    if (_.isEqual(rpDocType, DOC_TYPE.PASSPORT)) {
+      setValue('rpPassport', rpDocNo);
+    } else {
+      const matchResult = rpDocNo.match(PATTERN.HKID);
+      setValue('rpID1', matchResult[1]);
+      setValue('rpID2', matchResult[2]);
+      setValue('rpID3', matchResult[3]);
+    }
+
+    if (!_.isEmpty(rpDob) && PATTERN.DOB.test(rpDob)) {
+      const matchResult = rpDob.match(PATTERN.DOB);
+      setValue('rpDobD', matchResult[1]);
+      setValue('rpDobM', matchResult[2]);
+      setValue('rpDobY', matchResult[3]);
+    }
+  }, [payload]);
+
+  const onChangeDisclaimerChinese = e => {
+    const isChecked = e.target.checked;
+    if (isChecked) {
+      resetField('rpFamilyNameChi');
+      resetField('rpGivenNameChi');
+      // setValue('rpFamilyNameChi', '');
+      // setValue('rpGivenNameChi', '');
+    }
+    setIsDisclaimerChineseChecked(isChecked);
+  };
 
   return (
     <>
@@ -87,7 +109,9 @@ const CustomerInfo = () => {
           </span>
           <br />
           <input
-            {...register('rpFamilyNameChi')}
+            {...register('rpFamilyNameChi', {
+              disabled: isDisclaimerChineseChecked,
+            })}
             className="chiName-group form-control"
             name="rpFamilyNameChi"
             type="text"
@@ -101,7 +125,9 @@ const CustomerInfo = () => {
           </span>
           <br />
           <input
-            {...register('rpGivenNameChi')}
+            {...register('rpGivenNameChi', {
+              disabled: isDisclaimerChineseChecked,
+            })}
             className="chiName-group form-control"
             name="rpGivenNameChi"
             type="text"
@@ -116,11 +142,12 @@ const CustomerInfo = () => {
                 <tr>
                   <td width="5%">
                     <input
-                      {...register('disclaimerNoChineseName')}
-                      className="g-checkbox noChineseName chiName-group form-control"
+                      {...register('disclaimerNoChineseName', {
+                        onChange: onChangeDisclaimerChinese,
+                      })}
+                      className="g-checkbox noChineseName chiName-group"
                       name="disclaimerNoChineseName"
                       type="checkbox"
-                      value="Y"
                       id="disclaimerNoChineseName"
                     />
                   </td>
@@ -140,7 +167,7 @@ const CustomerInfo = () => {
         </div>
 
         <div className="col-md-6 col-xs-12 align-left">
-          {_.isEqual(rpDocType, DOC_TYPE.PASSPORT) ? (
+          {_.isEqual(docType, DOC_TYPE.PASSPORT) ? (
             <div className="passport box">
               <span id="form-label-passport-no">Passport No.</span>
               <br />
@@ -212,38 +239,17 @@ const CustomerInfo = () => {
                       style={{ width: '80px', fontWeight: 'normal' }}
                       id="rpDobD"
                     >
-                      <option value="">Day</option>
-                      <option value="01">01</option>
-                      <option value="02">02</option>
-                      <option value="03">03</option>
-                      <option value="04">04</option>
-                      <option value="05">05</option>
-                      <option value="06">06</option>
-                      <option value="07">07</option>
-                      <option value="08">08</option>
-                      <option value="09">09</option>
-                      <option value="10">10</option>
-                      <option value="11">11</option>
-                      <option value="12">12</option>
-                      <option value="13">13</option>
-                      <option value="14">14</option>
-                      <option value="15">15</option>
-                      <option value="16">16</option>
-                      <option value="17">17</option>
-                      <option value="18">18</option>
-                      <option value="19">19</option>
-                      <option value="20">20</option>
-                      <option value="21">21</option>
-                      <option value="22">22</option>
-                      <option value="23">23</option>
-                      <option value="24">24</option>
-                      <option value="25">25</option>
-                      <option value="26">26</option>
-                      <option value="27">27</option>
-                      <option value="28">28</option>
-                      <option value="29">29</option>
-                      <option value="30">30</option>
-                      <option value="31">31</option>
+                      <option value="" disabled={true}>
+                        Day
+                      </option>
+                      {_.range(1, 31).map(value => {
+                        let twoDigitValue = String(value).padStart(2, '0');
+                        return (
+                          <option key={'day_' + twoDigitValue} value={twoDigitValue}>
+                            {twoDigitValue}
+                          </option>
+                        );
+                      })}
                     </select>
                   </td>
                   <td valign="top">&nbsp;&nbsp;/&nbsp;&nbsp;</td>
@@ -256,19 +262,17 @@ const CustomerInfo = () => {
                       style={{ width: '90px', fontWeight: 'normal' }}
                       id="rpDobM"
                     >
-                      <option value="">Month</option>
-                      <option value="01">01</option>
-                      <option value="02">02</option>
-                      <option value="03">03</option>
-                      <option value="04">04</option>
-                      <option value="05">05</option>
-                      <option value="06">06</option>
-                      <option value="07">07</option>
-                      <option value="08">08</option>
-                      <option value="09">09</option>
-                      <option value="10">10</option>
-                      <option value="11">11</option>
-                      <option value="12">12</option>
+                      <option value="" disabled={true}>
+                        Month
+                      </option>
+                      {_.range(1, 12).map(value => {
+                        let twoDigitValue = String(value).padStart(2, '0');
+                        return (
+                          <option key={'month_' + twoDigitValue} value={twoDigitValue}>
+                            {twoDigitValue}
+                          </option>
+                        );
+                      })}
                     </select>
                   </td>
                   <td valign="top">&nbsp;&nbsp;/&nbsp;&nbsp;</td>
@@ -281,7 +285,16 @@ const CustomerInfo = () => {
                       style={{ width: '120px', fontWeight: 'normal' }}
                       id="rpDobY"
                     >
-                      <option value="">Year</option>
+                      <option value="" disabled={true}>
+                        Year
+                      </option>
+                      {_.range(1900, dayjs().year() - 18).map(value => {
+                        return (
+                          <option key={'year_' + value} value={value}>
+                            {value}
+                          </option>
+                        );
+                      })}
                     </select>
                   </td>
                 </tr>
