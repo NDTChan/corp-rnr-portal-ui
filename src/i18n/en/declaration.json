@@ -1,0 +1,11 @@
+{
+  "declaration": {
+    "banner": "Declaration",
+    "content": "The personal data and other information (collectively, \"Data\") that you provide in this registration will be used for the real name registration under Telecommunications (Registration of SIM Cards) Regulation (Cap 106AI) and other purposes stated in the <a href=\\\"https://www.hkt.com/privacy-statement?locale=en\\\" target=\\\"_blank\\\">Personal Information Collection Statement</a>",
+    "confirm": "I hereby declare and confirm that:",
+    "noHKID": "I hereby declare that I do not hold a Hong Kong Identity Card.",
+    "disclaimer": "I am over the age of 18 and I am duly authorized by the company to sign this Agreement and bind the company",
+    "understoodStatement" : "The information provided is true and accurate, and I have read, understood and accepted the",
+    "privacyStatement": "Personal Information Collection Statement"
+  }
+}

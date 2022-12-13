@@ -2,9 +2,17 @@ import React, { useState } from 'react';
 import './personal.scss';
 import QRCode from 'react-qr-code';
 import CustomerInfo from 'app/modules/personal/information/customer-info';
+import { useAppDispatch } from 'app/config/store';
+import { selectDocType } from './personal.reducer';
 
 const Personal = () => {
   const [showCustomerInfo, setShowCustomerInfo] = useState(true);
+  const dispatch = useAppDispatch();
+
+  function onChangeValue(event) {
+    dispatch(selectDocType(event.target.value));
+  }
+
   return (
     <>
       <div className="row personal-banner">
@@ -26,7 +34,7 @@ const Personal = () => {
         </div>
       </div>
 
-      <div className="row form-pd">
+      <div className="row form-pd" onChange={onChangeValue}>
         <div className="col-md-6 col-xs-12">
           <span id="id-passport-type">Select identity document:</span>
           <span className="mandatory-star">*</span>
