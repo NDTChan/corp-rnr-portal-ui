@@ -13,12 +13,15 @@ import Personal from 'app/modules/personal/personal';
 import Declaration from 'app/modules/declaration/declaration';
 import Policy from 'app/modules/policy/policy';
 import LoadingBar from 'react-redux-loading-bar';
-// import { useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { Form } from 'reactstrap';
+import { IRnrSubmit } from './shared/model/rnr-submit.model';
 
 export const App = () => {
   const currentLocale = useAppSelector(state => state.locale.currentLocale);
 
-  // const methods = useForm();
+  const methods = useForm();
+  const onSubmit: SubmitHandler<IRnrSubmit> = data => console.log(data);
   return (
     <div className="app-container">
       <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
@@ -30,9 +33,13 @@ export const App = () => {
         <ErrorBoundary>
           <Organisation />
           <br />
-          <Personal />
-          <Declaration />
-          <Policy />
+          <FormProvider {...methods}>
+            <Form onSubmit={methods.handleSubmit(onSubmit)}>
+              <Personal />
+              <Declaration />
+              <Policy />
+            </Form>
+          </FormProvider>
         </ErrorBoundary>
       </div>
       <Footer />

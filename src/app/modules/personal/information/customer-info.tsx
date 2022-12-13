@@ -1,8 +1,42 @@
 import React from 'react';
 import './customer-info.scss';
-import { Input } from 'reactstrap';
+import { useAppSelector } from 'app/config/store';
+import { useFormContext } from 'react-hook-form';
+import _ from 'lodash';
+import { IOcrFileUpload } from 'app/shared/model/ocr-file-upload.model';
+import { DOC_TYPE, PATTERN } from 'app/config/constants';
 
 const CustomerInfo = () => {
+  const { register, setValue, getValues } = useFormContext();
+  const payload: IOcrFileUpload = useAppSelector(state => state.personal.data);
+  const rnrInfo = !_.isUndefined(payload) ? payload.rnrInfo : undefined;
+
+  const { rpFamilyNameEng, rpGivenNameEng, rpFamilyNameChi, rpGivenNameChi, rpDocNo, rpDob, rpDocType } = rnrInfo;
+  setValue('rpFamilyNameEng', rpFamilyNameEng);
+  setValue('rpGivenNameEng', rpGivenNameEng);
+  setValue('rpFamilyNameChi', rpFamilyNameChi);
+  setValue('rpGivenNameChi', rpGivenNameChi);
+
+  if (_.isEmpty(rpFamilyNameChi) || _.isEmpty(rpGivenNameChi)) {
+    setValue('disclaimerNoChineseName', true);
+  }
+
+  if (_.isEqual(rpDocType, DOC_TYPE.PASSPORT)) {
+    setValue('rpPassport', rpDocNo);
+  } else {
+    const matchResult = rpDocNo.match(PATTERN.HKID);
+    setValue('rpID1', matchResult[1]);
+    setValue('rpID2', matchResult[2]);
+    setValue('rpID3', matchResult[3]);
+  }
+
+  if (!_.isEmpty(rpDob) && PATTERN.DOB.test(rpDob)) {
+    const matchResult = rpDob.match(PATTERN.DOB);
+    setValue('rpDobD', matchResult[1]);
+    setValue('rpDobM', matchResult[2]);
+    setValue('rpDobY', matchResult[3]);
+  }
+
   return (
     <>
       <div className="row form-pd">
@@ -15,13 +49,31 @@ const CustomerInfo = () => {
             Last Name
           </span>
           <br />
-          <Input name="rpFamilyNameEng" type="text" id="rpFamilyNameEng" style={{ width: '100%' }} maxLength={50} required />
+          <input
+            {...register('rpFamilyNameEng')}
+            className={'form-control'}
+            name="rpFamilyNameEng"
+            type="text"
+            id="rpFamilyNameEng"
+            style={{ width: '100%' }}
+            maxLength={50}
+            required
+          />
           <br />
           <span style={{ fontSize: '90%' }} id="form-label-given-name">
             Given Name
           </span>
           <br />
-          <Input name="rpGivenNameEng" type="text" id="rpGivenNameEng" style={{ width: '100%' }} maxLength={50} required />
+          <input
+            className={'form-control'}
+            {...register('rpGivenNameEng')}
+            name="rpGivenNameEng"
+            type="text"
+            id="rpGivenNameEng"
+            style={{ width: '100%' }}
+            maxLength={50}
+            required
+          />
         </div>
       </div>
       <div className="row form-pd">
@@ -34,8 +86,9 @@ const CustomerInfo = () => {
             Last Name
           </span>
           <br />
-          <Input
-            className="chiName-group"
+          <input
+            {...register('rpFamilyNameChi')}
+            className="chiName-group form-control"
             name="rpFamilyNameChi"
             type="text"
             id="rpFamilyNameChi"
@@ -47,15 +100,24 @@ const CustomerInfo = () => {
             Given Name
           </span>
           <br />
-          <Input className="chiName-group" name="rpGivenNameChi" type="text" id="rpGivenNameChi" style={{ width: '100%' }} maxLength={50} />
+          <input
+            {...register('rpGivenNameChi')}
+            className="chiName-group form-control"
+            name="rpGivenNameChi"
+            type="text"
+            id="rpGivenNameChi"
+            style={{ width: '100%' }}
+            maxLength={50}
+          />
           <br />
           <label>
             <table width="100%" border={0} cellSpacing="0" cellPadding="0">
               <tbody>
                 <tr>
                   <td width="5%">
-                    <Input
-                      className="g-checkbox noChineseName chiName-group"
+                    <input
+                      {...register('disclaimerNoChineseName')}
+                      className="g-checkbox noChineseName chiName-group form-control"
                       name="disclaimerNoChineseName"
                       type="checkbox"
                       value="Y"
@@ -76,54 +138,58 @@ const CustomerInfo = () => {
           <span id="id-passport-desc">Hong Kong Identity Card/ Passport No.</span>
           <span className="mandatory-star">*</span>
         </div>
+
         <div className="col-md-6 col-xs-12 align-left">
-          <div className="hkid nhkid box">
-            <span id="form-label-hkid">Hong Kong Identity Card</span>
-            <br />
-            <Input
-              name="rpID1"
-              type="text"
-              id="rpID1"
-              size={4}
-              maxLength={2}
-              style={{ fontWeight: 'normal', width: '10%', display: 'inline' }}
-            />
-            &nbsp;
-            <Input
-              name="rpID2"
-              type="text"
-              id="rpID2"
-              size={12}
-              maxLength={6}
-              style={{ fontWeight: 'normal', width: '20%', display: 'inline' }}
-            />
-            &nbsp;
-            <Input
-              name="rpID3"
-              type="text"
-              id="rpID3"
-              size={4}
-              maxLength={1}
-              style={{ fontWeight: 'normal', width: '10%', display: 'inline' }}
-            />
-            {/*<Label>*/}
-            {/*  <Input name="rpID1" type="text" id="rpID1" size={4} maxLength={2} style={{ fontWeight: 'normal' }} />*/}
-            {/*  <Input name="rpID2" type="text" id="rpID2" size={12} maxLength={6} style={{ fontWeight: 'normal' }} />*/}
-            {/*  (*/}
-            {/*  <Input name="rpID3" type="text" id="rpID3" size={4} maxLength={1} style={{ fontWeight: 'normal' }} />*/}
-            {/*  )<br />*/}
-            {/*</Label>*/}
-            <br />
-            <br />
-            <span id="form-label-hkid-guide">Example : X123456(A)</span>
-          </div>
-          {/*<div className="passport box">*/}
-          {/*  <span id="form-label-passport-no">Passport No.</span>*/}
-          {/*  <br />*/}
-          {/*  <Input name="rpPassport" type="text" maxLength={50} id="rpPassport" style={{ width: '100%' }} />*/}
-          {/*</div>*/}
+          {_.isEqual(rpDocType, DOC_TYPE.PASSPORT) ? (
+            <div className="passport box">
+              <span id="form-label-passport-no">Passport No.</span>
+              <br />
+              <input className={'form-control'} name="rpPassport" type="text" maxLength={50} id="rpPassport" style={{ width: '100%' }} />
+            </div>
+          ) : (
+            <div className="hkid nhkid box">
+              <span id="form-label-hkid">Hong Kong Identity Card</span>
+              <br />
+              <input
+                className={'form-control'}
+                {...register('rpID1')}
+                name="rpID1"
+                type="text"
+                id="rpID1"
+                size={4}
+                maxLength={2}
+                style={{ fontWeight: 'normal', width: '10%', display: 'inline' }}
+              />
+              &nbsp;
+              <input
+                className={'form-control'}
+                {...register('rpID2')}
+                name="rpID2"
+                type="text"
+                id="rpID2"
+                size={12}
+                maxLength={6}
+                style={{ fontWeight: 'normal', width: '20%', display: 'inline' }}
+              />
+              &nbsp;
+              <input
+                className={'form-control'}
+                {...register('rpID3')}
+                name="rpID3"
+                type="text"
+                id="rpID3"
+                size={4}
+                maxLength={1}
+                style={{ fontWeight: 'normal', width: '10%', display: 'inline' }}
+              />
+              <br />
+              <br />
+              <span id="form-label-hkid-guide">Example : X123456(A)</span>
+            </div>
+          )}
         </div>
       </div>
+
       <div className="row form-pd">
         <div className="col-md-6 col-xs-12 align-left">
           <span id="dob-desc">Date of Birth</span>
@@ -138,6 +204,7 @@ const CustomerInfo = () => {
                 <tr>
                   <td valign="top">
                     <select
+                      {...register('rpDobD')}
                       name="rpDobD"
                       size={1}
                       required={true}
@@ -182,6 +249,7 @@ const CustomerInfo = () => {
                   <td valign="top">&nbsp;&nbsp;/&nbsp;&nbsp;</td>
                   <td valign="top">
                     <select
+                      {...register('rpDobM')}
                       name="rpDobM"
                       required={true}
                       className="form-control"
@@ -206,6 +274,7 @@ const CustomerInfo = () => {
                   <td valign="top">&nbsp;&nbsp;/&nbsp;&nbsp;</td>
                   <td valign="top">
                     <select
+                      {...register('rpDobY')}
                       name="rpDobY"
                       required={true}
                       className="form-control"

@@ -32,7 +32,6 @@ const getTsLoaderRule = env => {
 };
 
 module.exports = async options => {
-  console.log('options: ', options);
   const development = options.env === 'development';
   const languagesHash = await hashElement(path.resolve(__dirname, '../src/i18n'), {
     algo: 'md5',

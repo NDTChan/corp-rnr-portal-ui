@@ -1,10 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './personal.scss';
 import QRCode from 'react-qr-code';
 import CustomerInfo from 'app/modules/personal/information/customer-info';
+import { useFormContext } from 'react-hook-form';
+import { getParamStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { getFieUploadInfo } from 'app/modules/personal/personal.reducer';
+import _ from 'lodash';
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
 
 const Personal = () => {
-  const [showCustomerInfo, setShowCustomerInfo] = useState(true);
+  const dispatch = useAppDispatch();
+  const [showCustomerInfo, setShowCustomerInfo] = useState(false);
+  const { register, getValues } = useFormContext();
+
+  const isFetching = useAppSelector(state => state.personal.loading);
+  const isUploadSuccess = useAppSelector(state => state.personal.uploaded);
+
+  useEffect(() => {
+    _.isBoolean(isFetching) && isFetching ? dispatch(showLoading()) : dispatch(hideLoading());
+    setShowCustomerInfo(isUploadSuccess);
+  }, [isFetching]);
+
+  const onChangeFile = e => {
+    const isFileExist = e.target.files && e.target.files.length;
+    if (isFileExist) {
+      const file = e.target.files[0];
+      getBase64(file).then(result => {
+        const formData = new FormData();
+        formData.append('rnrToken', getParamStateWithQueryParams('token', location.search));
+        formData.append('docType', getValues('rpDocType'));
+        formData.append('frontPageImage', result as string);
+        dispatch(getFieUploadInfo(formData));
+      });
+    }
+  };
+
+  const getBase64 = file => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+  };
+
   return (
     <>
       <div className="row personal-banner">
@@ -33,19 +73,40 @@ const Personal = () => {
         </div>
         <div className="col-md-6 col-xs-12">
           <div className="form-check">
-            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value={'nhkid'} />
+            <input
+              {...register('rpDocType')}
+              className="form-check-input"
+              type="radio"
+              name="rpDocType"
+              id="flexRadioDefault1"
+              value={'HKID_2018'}
+            />
             <label className="form-check-label" htmlFor="flexRadioDefault1">
               New Smart Identity Card
             </label>
           </div>
           <div className="form-check">
-            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value={'hkid'} />
+            <input
+              {...register('rpDocType')}
+              className="form-check-input"
+              type="radio"
+              name="rpDocType"
+              id="flexRadioDefault2"
+              value={'HKID_2003'}
+            />
             <label className="form-check-label" htmlFor="flexRadioDefault2">
               Smart Identity Card
             </label>
           </div>
           <div className="form-check">
-            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" value={'passport'} />
+            <input
+              {...register('rpDocType')}
+              className="form-check-input"
+              type="radio"
+              name="rpDocType"
+              id="flexRadioDefault3"
+              value={'PASS'}
+            />
             <label className="form-check-label" htmlFor="flexRadioDefault3">
               Passport
             </label>
@@ -77,7 +138,7 @@ const Personal = () => {
             <span id="upload-id-or">Or</span>
           </h2>
           <div className="document-container">
-            <input className="form-control" type="file" id="formFile" />
+            <input {...register('formFile')} onChange={onChangeFile} className="form-control" type="file" id="formFile" />
           </div>
 
           <br />

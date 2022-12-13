@@ -13,13 +13,13 @@ const Organisation = () => {
   const payload = useAppSelector(state => state.organisation.data);
 
   useEffect(() => {
-    const rnrToken = getParamStateWithQueryParams('token', location.search);
-    dispatch(getOcrPermission(rnrToken)).then(() => dispatch(getPayload(rnrToken)));
-  }, []);
-
-  useEffect(() => {
     _.isBoolean(isFetching) && isFetching ? dispatch(showLoading()) : dispatch(hideLoading());
   }, [isFetching]);
+
+  useEffect(() => {
+    const rnrToken = getParamStateWithQueryParams('token', location.search);
+    dispatch(getOcrPermission(rnrToken)).then(() => dispatch(getPayload(rnrToken)));
+  }, [dispatch]);
 
   const { orderInfo, orgInfo, rnrInfo } = payload.cordPayload;
   const rnrLevel = rnrInfo.rnrLevel;
