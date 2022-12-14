@@ -36,3 +36,14 @@
   line-height: 1.2;
   text-align: left;
 }
+
+.checkbox-label {
+  font-size: 90%;
+  font-weight: 400;
+}
+
+input[type=radio] {
+  transform: scale(1.5);
+  margin-top: 8px;
+  margin-right: 10px;
+}
