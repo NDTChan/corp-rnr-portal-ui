@@ -86,7 +86,7 @@ const Personal = () => {
               id="flexRadioDefault1"
               value={'HKID_2018'}
             />
-            <label className="form-check-label" htmlFor="flexRadioDefault1">
+            <label className="form-check-label font-weight-400" htmlFor="flexRadioDefault1">
               New Smart Identity Card
             </label>
           </div>
@@ -99,7 +99,7 @@ const Personal = () => {
               id="flexRadioDefault2"
               value={'HKID_2003'}
             />
-            <label className="form-check-label" htmlFor="flexRadioDefault2">
+            <label className="form-check-label font-weight-400" htmlFor="flexRadioDefault2">
               Smart Identity Card
             </label>
           </div>
@@ -112,7 +112,7 @@ const Personal = () => {
               id="flexRadioDefault3"
               value={'PASS'}
             />
-            <label className="form-check-label" htmlFor="flexRadioDefault3">
+            <label className="form-check-label font-weight-400" htmlFor="flexRadioDefault3">
               Passport
             </label>
           </div>
