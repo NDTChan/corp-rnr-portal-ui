@@ -1,0 +1,11 @@
+{
+  "declaration": {
+    "banner": "免責聲明",
+    "content": "閣下登記時所提供的個人資料及其他資料會根據第106AI章《電訊(登記用戶識別卡)規例》用作實名登記之用並按照<a href=\\\"https://www.hkt.com/privacy-statement?locale=zh\\\" target=\\\"_blank\\\" style=\\\"color: #000; text-decoration: underline;\\\">個人資料收集聲明</a>",
+    "confirm": "所述作其他用途。",
+    "noHKID": "本人特此聲明本人並沒有持有香港身份證證件。",
+    "overAgeOf18": "本人已年滿18歲，並已獲得本公司正式授權簽署本協議並對本公司具有約束力。",
+    "understoodStatement" : "所提供的資料真確無誤及本人已閱讀，明白及同意",
+    "privacyStatement": "個人資料收集聲明"
+  }
+}
