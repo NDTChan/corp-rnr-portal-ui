@@ -12,23 +12,21 @@ const CustomerInfo = () => {
   const [isDisclaimerChineseChecked, setIsDisclaimerChineseChecked] = React.useState(false);
 
   const payload: IOcrFileUpload = useAppSelector(state => state.personal.data);
-  let docType = '';
+  const rnrInfo = !_.isUndefined(payload) ? payload.rnrInfo : undefined;
+  const { rpDocType } = rnrInfo;
 
   React.useEffect(() => {
-    const rnrInfo = !_.isUndefined(payload) ? payload.rnrInfo : undefined;
     const { rpFamilyNameEng, rpGivenNameEng, rpFamilyNameChi, rpGivenNameChi, rpDocNo, rpDob, rpDocType } = rnrInfo;
-    docType = rpDocType;
 
     setValue('rpFamilyNameEng', rpFamilyNameEng);
     setValue('rpGivenNameEng', rpGivenNameEng);
 
-    if (!isDisclaimerChineseChecked) {
-      setValue('rpFamilyNameChi', rpFamilyNameChi);
-      setValue('rpGivenNameChi', rpGivenNameChi);
-    }
+    setValue('rpFamilyNameChi', rpFamilyNameChi);
+    setValue('rpGivenNameChi', rpGivenNameChi);
 
     if (_.isEmpty(rpFamilyNameChi) || _.isEmpty(rpGivenNameChi)) {
       setValue('disclaimerNoChineseName', true);
+      setIsDisclaimerChineseChecked(true);
     }
 
     if (_.isEqual(rpDocType, DOC_TYPE.PASSPORT)) {
@@ -53,8 +51,6 @@ const CustomerInfo = () => {
     if (isChecked) {
       resetField('rpFamilyNameChi');
       resetField('rpGivenNameChi');
-      // setValue('rpFamilyNameChi', '');
-      // setValue('rpGivenNameChi', '');
     }
     setIsDisclaimerChineseChecked(isChecked);
   };
@@ -167,11 +163,19 @@ const CustomerInfo = () => {
         </div>
 
         <div className="col-md-6 col-xs-12 align-left">
-          {_.isEqual(docType, DOC_TYPE.PASSPORT) ? (
+          {_.isEqual(rpDocType, DOC_TYPE.PASSPORT) ? (
             <div className="passport box">
               <span id="form-label-passport-no">Passport No.</span>
               <br />
-              <input className={'form-control'} name="rpPassport" type="text" maxLength={50} id="rpPassport" style={{ width: '100%' }} />
+              <input
+                className={'form-control'}
+                {...register('rpPassport')}
+                name="rpPassport"
+                type="text"
+                maxLength={50}
+                id="rpPassport"
+                style={{ width: '100%' }}
+              />
             </div>
           ) : (
             <div className="hkid nhkid box">

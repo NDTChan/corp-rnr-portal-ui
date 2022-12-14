@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './personal.scss';
 import QRCode from 'react-qr-code';
 import CustomerInfo from 'app/modules/personal/information/customer-info';
@@ -11,16 +11,21 @@ import { hideLoading, showLoading } from 'react-redux-loading-bar';
 
 const Personal = () => {
   const dispatch = useAppDispatch();
-  const [showCustomerInfo, setShowCustomerInfo] = useState(false);
-  const { register, getValues } = useFormContext();
+  const [showCustomerInfo, setShowCustomerInfo] = React.useState(false);
+  const { register, getValues, watch } = useFormContext();
+  const watchDocType = watch('rpDocType');
 
   const isFetching = useAppSelector(state => state.personal.loading);
   const isUploadSuccess = useAppSelector(state => state.personal.uploaded);
 
-  useEffect(() => {
+  React.useEffect(() => {
     _.isBoolean(isFetching) && isFetching ? dispatch(showLoading()) : dispatch(hideLoading());
     setShowCustomerInfo(isUploadSuccess);
   }, [isFetching]);
+
+  React.useEffect(() => {
+    setShowCustomerInfo(false);
+  }, [watchDocType]);
 
   const onChangeFile = e => {
     const isFileExist = e.target.files && e.target.files.length;
