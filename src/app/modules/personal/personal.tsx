@@ -77,44 +77,17 @@ const Personal = () => {
           <span className="mandatory-star">*</span>
         </div>
         <div className="col-md-6 col-xs-12">
-          <div className="form-check">
-            <input
-              {...register('rpDocType')}
-              className="form-check-input"
-              type="radio"
-              name="rpDocType"
-              id="flexRadioDefault1"
-              value={'HKID_2018'}
-            />
-            <label className="form-check-label font-weight-400" htmlFor="flexRadioDefault1">
-              New Smart Identity Card
-            </label>
+          <div>
+            <input {...register('rpDocType')} type="radio" name="rpDocType" id="flexRadioDefault1" value={'HKID_2018'} />
+            <span className="checkbox-label">New Smart Identity Card</span>
           </div>
-          <div className="form-check">
-            <input
-              {...register('rpDocType')}
-              className="form-check-input"
-              type="radio"
-              name="rpDocType"
-              id="flexRadioDefault2"
-              value={'HKID_2003'}
-            />
-            <label className="form-check-label font-weight-400" htmlFor="flexRadioDefault2">
-              Smart Identity Card
-            </label>
+          <div>
+            <input {...register('rpDocType')} type="radio" name="rpDocType" id="flexRadioDefault2" value={'HKID_2003'} />
+            <span className="checkbox-label">Smart Identity Card</span>
           </div>
-          <div className="form-check">
-            <input
-              {...register('rpDocType')}
-              className="form-check-input"
-              type="radio"
-              name="rpDocType"
-              id="flexRadioDefault3"
-              value={'PASS'}
-            />
-            <label className="form-check-label font-weight-400" htmlFor="flexRadioDefault3">
-              Passport
-            </label>
+          <div>
+            <input {...register('rpDocType')} type="radio" name="rpDocType" id="flexRadioDefault3" value={'PASS'} />
+            <span className="checkbox-label">Passport</span>
           </div>
         </div>
       </div>
