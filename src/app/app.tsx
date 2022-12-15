@@ -72,16 +72,14 @@ export const App = () => {
           then: schema => schema.required(),
         })
         .min(6),
-      rpID3: yub
-        .string()
-        .when('rpDocType', {
-          is: rpDocType => _.includes([DOC_TYPE.NEW_HKID, DOC_TYPE.OLD_HKID], rpDocType),
-          then: schema => schema.required(),
-        })
-        .test('checkDigits', 'checking this digits', (value, context) => {
-          const { rpID1, rpID2 } = context.parent;
-          return checkDigit(rpID1, rpID2, value);
-        }),
+      rpID3: yub.string().when('rpDocType', {
+        is: rpDocType => _.includes([DOC_TYPE.NEW_HKID, DOC_TYPE.OLD_HKID], rpDocType),
+        then: schema =>
+          schema.required().test('checkDigits', 'declaration.validatorMsg.disclaimerNoHkid', (value, context) => {
+            const { rpID1, rpID2 } = context.parent;
+            return checkDigit(rpID1, rpID2, value);
+          }),
+      }),
       file: yub
         .mixed()
         .required()
