@@ -25,11 +25,7 @@ export type OrganisationState = Readonly<typeof initialState>;
 export const OrganisationSlice = createSlice({
   name: 'organisation',
   initialState: initialState as OrganisationState,
-  reducers: {
-    reset() {
-      return initialState;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(getPayload.fulfilled, (state, action) => {
@@ -45,8 +41,6 @@ export const OrganisationSlice = createSlice({
       });
   },
 });
-
-export const { reset } = OrganisationSlice.actions;
 
 // Reducer
 export default OrganisationSlice.reducer;

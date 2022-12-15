@@ -14,7 +14,7 @@ const apiUrl = '/ocr/file-upload';
 
 export const getFieUploadInfo = createAsyncThunk(
   'personal/fetch_payload',
-  async (formData: FormData, thunkAPI) => {
+  async (formData: FormData) => {
     return axios.post<IOcrFileUpload>(apiUrl, formData, { timeout: 600000 });
   },
   { serializeError: serializeAxiosError }
@@ -24,11 +24,7 @@ export type PersonalState = Readonly<typeof initialState>;
 export const PersonalSlice = createSlice({
   name: 'personal',
   initialState: initialState as PersonalState,
-  reducers: {
-    reset() {
-      return initialState;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(getFieUploadInfo.fulfilled, (state, action) => {
@@ -47,7 +43,5 @@ export const PersonalSlice = createSlice({
       });
   },
 });
-
-export const { reset } = PersonalSlice.actions;
 
 export default PersonalSlice.reducer;

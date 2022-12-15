@@ -8,11 +8,17 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getFieUploadInfo } from 'app/modules/personal/personal.reducer';
 import _ from 'lodash';
 import { hideLoading, showLoading } from 'react-redux-loading-bar';
+import { DOC_TYPE } from 'app/config/constants';
 
 const Personal = () => {
   const dispatch = useAppDispatch();
   const [showCustomerInfo, setShowCustomerInfo] = React.useState(false);
-  const { register, getValues, watch } = useFormContext();
+  const {
+    register,
+    getValues,
+    watch,
+    formState: { errors },
+  } = useFormContext();
   const watchDocType = watch('rpDocType');
 
   const isFetching = useAppSelector(state => state.personal.loading);
@@ -77,16 +83,16 @@ const Personal = () => {
           <span className="mandatory-star">*</span>
         </div>
         <div className="col-md-6 col-xs-12">
-          <div>
-            <input {...register('rpDocType')} type="radio" name="rpDocType" id="flexRadioDefault1" value={'HKID_2018'} />
+          <div className="form-check">
+            <input {...register('rpDocType')} type="radio" name="rpDocType" id="flexRadioDefault1" value={DOC_TYPE.NEW_HKID} />
             <span className="checkbox-label">New Smart Identity Card</span>
           </div>
-          <div>
-            <input {...register('rpDocType')} type="radio" name="rpDocType" id="flexRadioDefault2" value={'HKID_2003'} />
+          <div className="form-check">
+            <input {...register('rpDocType')} type="radio" name="rpDocType" id="flexRadioDefault2" value={DOC_TYPE.OLD_HKID} />
             <span className="checkbox-label">Smart Identity Card</span>
           </div>
-          <div>
-            <input {...register('rpDocType')} type="radio" name="rpDocType" id="flexRadioDefault3" value={'PASS'} />
+          <div className="form-check">
+            <input {...register('rpDocType')} type="radio" name="rpDocType" id="flexRadioDefault3" value={DOC_TYPE.PASSPORT} />
             <span className="checkbox-label">Passport</span>
           </div>
         </div>
@@ -116,7 +122,7 @@ const Personal = () => {
             <span id="upload-id-or">Or</span>
           </h2>
           <div className="document-container">
-            <input {...register('formFile')} onChange={onChangeFile} className="form-control" type="file" id="formFile" />
+            <input {...register('file')} onChange={onChangeFile} className="form-control" type="file" id="formFile" />
           </div>
 
           <br />

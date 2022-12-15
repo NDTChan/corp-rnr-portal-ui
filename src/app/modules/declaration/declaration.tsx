@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Translate } from 'react-jhipster';
 import './declaration.scss';
-import { PASSPORT_DOC_TYPE } from 'app/shared/util/constants';
 import { useFormContext } from 'react-hook-form';
+import _ from 'lodash';
+import { DOC_TYPE } from 'app/config/constants';
+import { SingleErrorMessage } from 'app/shared/error/error-validation';
 
 const Declaration = () => {
-  const { register, watch } = useFormContext();
-  const watchDocType = watch('rpDocType', PASSPORT_DOC_TYPE);
-  const showDisclaimerNoHkid = !watchDocType || watchDocType === PASSPORT_DOC_TYPE;
+  const {
+    register,
+    getValues,
+    formState: { errors },
+  } = useFormContext();
+  const docType = getValues('rpDocType');
 
   return (
     <>
@@ -32,10 +37,10 @@ const Declaration = () => {
       <div className="form-pd">
         <Translate contentKey={'declaration.confirm'} />
       </div>
-      {showDisclaimerNoHkid && (
+      {_.isEqual(docType, DOC_TYPE.PASSPORT) && (
         <div className="row well form-pd check-box-container">
           <div className="col-sm-1 col-2">
-            <input {...register('checkedNoHKID')} className="g-checkbox" name="disclaimerNoHkid" type="checkbox" required />
+            <input {...register('disclaimerNoHkid')} className="g-checkbox" name="disclaimerNoHkid" type="checkbox" required />
           </div>
           <div className="col-sm-11 col-10 txt-en">
             <div className="check-box-text" id="declaration-no-hkid">
@@ -47,7 +52,7 @@ const Declaration = () => {
       )}
       <div className="row well form-pd check-box-container">
         <div className="col-sm-1 col-2">
-          <input {...register('checkedOverAgeOf18')} className="g-checkbox" type="checkbox" required />
+          <input {...register('disclaimerOverAgeOf18')} className="g-checkbox" type="checkbox" required />
         </div>
         <div className="col-sm-11 col-10 txt-en">
           <div className="check-box-text">
@@ -58,7 +63,7 @@ const Declaration = () => {
       </div>
       <div className="row well form-pd check-box-container">
         <div className="col-sm-1 col-2">
-          <input {...register('checkedPrivacyStatement')} className="g-checkbox" type="checkbox" required />
+          <input {...register('disclaimerPrivacyStatement')} className="g-checkbox" type="checkbox" required />
         </div>
         <div className="col-sm-11 col-10 txt-en">
           <div className="check-box-text">

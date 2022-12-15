@@ -8,7 +8,12 @@ import { DOC_TYPE, PATTERN } from 'app/config/constants';
 import dayjs from 'dayjs';
 
 const CustomerInfo = () => {
-  const { register, setValue, resetField } = useFormContext();
+  const {
+    register,
+    setValue,
+    resetField,
+    formState: { errors },
+  } = useFormContext();
   const [isDisclaimerChineseChecked, setIsDisclaimerChineseChecked] = React.useState(false);
 
   const payload: IOcrFileUpload = useAppSelector(state => state.personal.data);
