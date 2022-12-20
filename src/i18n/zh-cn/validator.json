@@ -1,0 +1,14 @@
+{
+  "validatorMsg": {
+    "wrongInformation": "注意: 請輸入正確資料",
+    "required": "注意: 請填寫此欄資料",
+    "disclaimerNoHkid": "注意: 請填寫此欄資料",
+    "englishLang": "注意: 請填寫正確英文姓名",
+    "chineseLang": "注意: 請填寫正確中文姓名",
+    "extension": "文件格式不正確",
+    "fileSizeLimit": "上傳文件必須小於5MB",
+    "docTypeSelected": "You need to choose <b>Identity Document First<b>",
+    "checkAgeAbove18": "必須年滿18歲或以上",
+    "date": "日期格式不正確"
+  }
+}
