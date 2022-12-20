@@ -9,6 +9,7 @@ import { getFieUploadInfo } from 'app/modules/personal/personal.reducer';
 import _ from 'lodash';
 import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import { DOC_TYPE } from 'app/config/constants';
+import { MultipleErrorMessage, SingleErrorMessage } from 'app/shared/error/error-validation';
 
 const Personal = () => {
   const dispatch = useAppDispatch();
@@ -96,6 +97,7 @@ const Personal = () => {
             <span className="checkbox-label">Passport</span>
           </div>
         </div>
+        <SingleErrorMessage errors={errors} name={'rpDocType'}></SingleErrorMessage>
       </div>
       {/*<div id="mobile-take-photo-container" className="row form-pd" hidden>*/}
       {/*  <div className="col-md-6 col-xs-12"></div>*/}
@@ -123,6 +125,7 @@ const Personal = () => {
           </h2>
           <div className="document-container">
             <input {...register('file')} onChange={onChangeFile} className="form-control" type="file" id="formFile" />
+            <MultipleErrorMessage name={'file'} errors={errors} />
           </div>
 
           <br />

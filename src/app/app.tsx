@@ -24,121 +24,128 @@ import { checkAge, checkDigit, checkValidDate } from 'app/shared/util/common-uti
 
 export const App = () => {
   const currentLocale = useAppSelector(state => state.locale.currentLocale);
-  const validationSchema = yub.object().shape(
-    {
-      rpDocType: yub.string().required(),
-      rpFamilyNameEng: yub
-        .string()
-        .required()
-        .matches(/^[a-zA-Z ]+$/),
-      rpGivenNameEng: yub
-        .string()
-        .required()
-        .matches(/^[a-zA-Z ]+$/),
-      rpFamilyNameChi: yub
-        .string()
-        .matches(/^[\u4E00-\u9FFF\u3400-\u4DFF\uF900-\uFAFF]+$/g)
-        .when('rpGivenNameChi', {
+  const validationSchema = yub
+    .object({
+      disclaimerNoChineseName: yub.ref('rpFamilyNameChi'),
+    })
+    .shape(
+      {
+        rpDocType: yub.string().required('validatorMsg.required'),
+        rpFamilyNameEng: yub
+          .string()
+          .required('validatorMsg.required')
+          .matches(/^[a-zA-Z ]+$/, 'validatorMsg.englishLang'),
+        rpGivenNameEng: yub
+          .string()
+          .required('validatorMsg.required')
+          .matches(/^[a-zA-Z ]+$/, 'validatorMsg.englishLang'),
+        rpFamilyNameChi: yub.string().when('rpGivenNameChi', {
           is: rpGivenNameChi => !_.isEmpty(rpGivenNameChi),
-          then: schema => schema.required(),
+          then: schema =>
+            schema.required('validatorMsg.required').matches(/^[\u4E00-\u9FFF\u3400-\u4DFF\uF900-\uFAFF]+$/g, 'validatorMsg.chineseLang'),
         }),
-      rpGivenNameChi: yub
-        .string()
-        .matches(/^[\u4E00-\u9FFF\u3400-\u4DFF\uF900-\uFAFF]+$/g)
-        .when('rpFamilyNameChi', {
+        rpGivenNameChi: yub.string().when('rpFamilyNameChi', {
           is: rpFamilyNameChi => !_.isEmpty(rpFamilyNameChi),
-          then: schema => schema.required(),
+          then: schema =>
+            schema.required('validatorMsg.required').matches(/^[\u4E00-\u9FFF\u3400-\u4DFF\uF900-\uFAFF]+$/g, 'validatorMsg.chineseLang'),
         }),
-      disclaimerNoChineseName: yub.bool().when(['rpFamilyNameChi', 'rpGivenNameChi'], {
-        is: (rpFamilyNameChi, rpGivenNameChi) => _.isEmpty(rpFamilyNameChi) && _.isEmpty(rpGivenNameChi),
-        then: schema => schema.required(),
-      }),
-      rpPassport: yub.string().when('rpDocType', {
-        is: rpDocType => _.isEqual(rpDocType, DOC_TYPE.PASSPORT),
-        then: schema => schema.required(),
-      }),
-      rpID1: yub
-        .string()
-        .matches(/^[A-Z]+$/)
-        .when('rpDocType', {
-          is: rpDocType => _.includes([DOC_TYPE.NEW_HKID, DOC_TYPE.OLD_HKID], rpDocType),
-          then: schema => schema.required(),
+        disclaimerNoChineseName: yub.bool().when(['rpFamilyNameChi', 'rpGivenNameChi'], {
+          is(rpFamilyNameChi, rpGivenNameChi) {
+            return _.isEmpty(rpFamilyNameChi) && _.isEmpty(rpGivenNameChi);
+          },
+          then: schema => schema.oneOf([true], 'validatorMsg.required'),
         }),
-
-      rpID2: yub
-        .string()
-        .when('rpDocType', {
+        rpPassport: yub.string().when('rpDocType', {
+          is: rpDocType => _.isEqual(rpDocType, DOC_TYPE.PASSPORT),
+          then: schema => schema.required('validatorMsg.required'),
+        }),
+        rpID1: yub
+          .string()
+          .matches(/^[A-Z]+$/)
+          .when('rpDocType', {
+            is: rpDocType => _.includes([DOC_TYPE.NEW_HKID, DOC_TYPE.OLD_HKID], rpDocType),
+            then: schema => schema.required('validatorMsg.required'),
+          })
+          .max(2),
+        rpID2: yub
+          .string()
+          .when('rpDocType', {
+            is: rpDocType => _.includes([DOC_TYPE.NEW_HKID, DOC_TYPE.OLD_HKID], rpDocType),
+            then: schema => schema.required('validatorMsg.required'),
+          })
+          .max(6, 'validatorMsg.wrongInformation'),
+        rpID3: yub.string().when('rpDocType', {
           is: rpDocType => _.includes([DOC_TYPE.NEW_HKID, DOC_TYPE.OLD_HKID], rpDocType),
-          then: schema => schema.required(),
-        })
-        .min(6),
-      rpID3: yub.string().when('rpDocType', {
-        is: rpDocType => _.includes([DOC_TYPE.NEW_HKID, DOC_TYPE.OLD_HKID], rpDocType),
-        then: schema =>
-          schema.required().test('checkDigits', 'declaration.validatorMsg.disclaimerNoHkid', (value, context) => {
-            const { rpID1, rpID2 } = context.parent;
-            return checkDigit(rpID1, rpID2, value);
+          then: schema =>
+            schema.required().test('checkDigits', 'validatorMsg.wrongInformation', (value, context) => {
+              const { rpID1, rpID2 } = context.parent;
+              return checkDigit(rpID1, rpID2, value);
+            }),
+        }),
+        file: yub
+          .mixed()
+          .required()
+          .test('extension', 'validatorMsg.extension', (files: FileList) => {
+            if (files.length === 0) return false;
+            const type = files.item(0).type;
+            return _.includes(['image/jpg', 'image/jpeg'], type);
+          })
+          .test('fileSize', 'validatorMsg.fileSizeLimit', (files: FileList) => {
+            if (files.length === 0) return false;
+            const size = files.item(0).size;
+            return size <= 5 * 1024 * 1024;
+          })
+          .test('docTypeSelected', 'validatorMsg.docTypeSelected', (files: FileList, context) => {
+            const { rpDocType } = context.parent;
+            return !_.isEmpty(rpDocType) && !_.isUndefined(rpDocType) && !_.isNull(rpDocType);
           }),
-      }),
-      file: yub
-        .mixed()
-        .required()
-        .test('extension', '', (file: File) => {
-          return _.includes(['jpg', 'jpeg'], file.type);
-        })
-        .test('fileSize', '', (file: File) => {
-          return file.size <= 5 * 1024 * 1024;
-        })
-        .test('docTypeSelected', '', (file: File, context) => {
-          const { rpDocType } = context.parent;
-          return !_.isEmpty(rpDocType) && !_.isUndefined(rpDocType) && !_.isNull(rpDocType);
+        rpDobD: yub
+          .number()
+          .required('validatorMsg.required')
+          .test('checkAge', 'validatorMsg.checkAgeAbove18', (value, context) => {
+            const { rpDobM, rpDobY } = context.parent;
+            return checkAge(rpDobY, rpDobM, value);
+          })
+          .test('checkValidDate', 'validatorMsg.date', (value, context) => {
+            const { rpDobM, rpDobY } = context.parent;
+            return checkValidDate(rpDobY, rpDobM, value);
+          }),
+        rpDobM: yub
+          .number()
+          .required('validatorMsg.required')
+          .test('checkAge', 'validatorMsg.checkAgeAbove18', (value, context) => {
+            const { rpDobD, rpDobY } = context.parent;
+            return checkAge(rpDobY, value, rpDobD);
+          })
+          .test('checkValidDate', 'validatorMsg.date', (value, context) => {
+            const { rpDobD, rpDobY } = context.parent;
+            return checkValidDate(rpDobY, value, rpDobD);
+          }),
+        rpDobY: yub
+          .number()
+          .required('validatorMsg.required')
+          .test('checkAge', 'validatorMsg.checkAgeAbove18', (value, context) => {
+            const { rpDobD, rpDobM } = context.parent;
+            return checkAge(value, rpDobM, rpDobD);
+          })
+          .test('checkValidDate', 'validatorMsg.date', (value, context) => {
+            const { rpDobD, rpDobM } = context.parent;
+            return checkValidDate(value, rpDobM, rpDobD);
+          }),
+        disclaimerPrivacyStatement: yub.bool().oneOf([true], 'validatorMsg.required'),
+        disclaimerOverAgeOf18: yub.bool().oneOf([true], 'validatorMsg.required'),
+        disclaimerNoHkid: yub.bool().when('rpDocType', {
+          is: rpDocType => _.isEqual(rpDocType, DOC_TYPE.PASSPORT),
+          then: schema => schema.oneOf([true], 'validatorMsg.required'),
         }),
-      rpDobD: yub
-        .number()
-        .required()
-        .test('checkAge', 'this is check Age bro', (value, context) => {
-          const { rpDobM, rpDobY } = context.parent;
-          return checkAge(rpDobY, rpDobM, value);
-        })
-        .test('checkValidDate', 'this is check valid date bro', (value, context) => {
-          const { rpDobM, rpDobY } = context.parent;
-          return checkValidDate(rpDobY, rpDobM, value);
-        }),
-      rpDobM: yub
-        .number()
-        .required()
-        .test('checkAge', 'this is check Age bro', (value, context) => {
-          const { rpDobD, rpDobY } = context.parent;
-          return checkAge(rpDobY, value, rpDobD);
-        })
-        .test('checkValidDate', 'this is check valid date bro', (value, context) => {
-          const { rpDobD, rpDobY } = context.parent;
-          return checkValidDate(rpDobY, value, rpDobD);
-        }),
-      rpDobY: yub
-        .number()
-        .required()
-        .test('checkAge', 'this is check Age bro', (value, context) => {
-          const { rpDobD, rpDobM } = context.parent;
-          return checkAge(value, rpDobM, rpDobD);
-        })
-        .test('checkValidDate', 'this is check valid date bro', (value, context) => {
-          const { rpDobD, rpDobM } = context.parent;
-          return checkValidDate(value, rpDobM, rpDobD);
-        }),
-      disclaimerPrivacyStatement: yub.bool().oneOf([true]),
-      disclaimerOverAgeOf18: yub.bool().oneOf([true]),
-      disclaimerNoHkid: yub.bool().when('rpDocType', {
-        is: rpDocType => _.isEqual(rpDocType, DOC_TYPE.PASSPORT),
-        then: schema => schema.oneOf([true]),
-      }),
-    },
-    [['rpGivenNameChi', 'rpFamilyNameChi']]
-  );
-  const formOptions = { resolver: yupResolver(validationSchema) };
+      },
+      [['rpGivenNameChi', 'rpFamilyNameChi']]
+    );
 
-  const methods = useForm(formOptions);
-  const onSubmit: SubmitHandler<IRnrSubmit> = data => console.log(data);
+  const methods = useForm({ resolver: yupResolver(validationSchema), criteriaMode: 'all' });
+  const onSubmit: SubmitHandler<IRnrSubmit> = data => {
+    console.log(data);
+  };
   const isUploadSuccess = useAppSelector(state => state.personal.uploaded);
   return (
     <div className="app-container">

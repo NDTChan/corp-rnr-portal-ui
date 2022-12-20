@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { IOcrFileUpload } from 'app/shared/model/ocr-file-upload.model';
 import { DOC_TYPE, PATTERN } from 'app/config/constants';
 import dayjs from 'dayjs';
+import { MultipleErrorMessage, SingleErrorMessage } from 'app/shared/error/error-validation';
 
 const CustomerInfo = () => {
   const {
@@ -80,8 +81,8 @@ const CustomerInfo = () => {
             id="rpFamilyNameEng"
             style={{ width: '100%' }}
             maxLength={50}
-            required
           />
+          <MultipleErrorMessage name={'rpFamilyNameEng'} errors={errors} />
           <br />
           <span style={{ fontSize: '90%' }} id="form-label-given-name">
             Given Name
@@ -95,8 +96,8 @@ const CustomerInfo = () => {
             id="rpGivenNameEng"
             style={{ width: '100%' }}
             maxLength={50}
-            required
           />
+          <MultipleErrorMessage name={'rpGivenNameEng'} errors={errors} />
         </div>
       </div>
       <div className="row form-pd">
@@ -120,6 +121,7 @@ const CustomerInfo = () => {
             style={{ width: '100%' }}
             maxLength={50}
           />
+          <MultipleErrorMessage name={'rpFamilyNameChi'} errors={errors} />
           <br />
           <span style={{ fontSize: '90%' }} id="form-label-chi-given-name">
             Given Name
@@ -136,6 +138,7 @@ const CustomerInfo = () => {
             style={{ width: '100%' }}
             maxLength={50}
           />
+          <MultipleErrorMessage name={'rpGivenNameChi'} errors={errors} />
           <br />
           <label>
             <table width="100%" border={0} cellSpacing="0" cellPadding="0">
@@ -159,6 +162,7 @@ const CustomerInfo = () => {
               </tbody>
             </table>
           </label>
+          <SingleErrorMessage name={'disclaimerNoChineseName'} errors={errors} />
         </div>
       </div>
       <div className="row form-pd">
@@ -181,6 +185,7 @@ const CustomerInfo = () => {
                 id="rpPassport"
                 style={{ width: '100%' }}
               />
+              <SingleErrorMessage name={'disclaimerNoChineseName'} errors={errors} />
             </div>
           ) : (
             <div className="hkid nhkid box">
@@ -196,6 +201,7 @@ const CustomerInfo = () => {
                 maxLength={2}
                 style={{ fontWeight: 'normal', width: '10%', display: 'inline' }}
               />
+              <MultipleErrorMessage name={'rpID1'} errors={errors} />
               &nbsp;
               <input
                 className={'form-control'}
@@ -207,6 +213,7 @@ const CustomerInfo = () => {
                 maxLength={6}
                 style={{ fontWeight: 'normal', width: '20%', display: 'inline' }}
               />
+              <MultipleErrorMessage name={'rpID2'} errors={errors} />
               &nbsp;
               <input
                 className={'form-control'}
@@ -218,6 +225,7 @@ const CustomerInfo = () => {
                 maxLength={1}
                 style={{ fontWeight: 'normal', width: '10%', display: 'inline' }}
               />
+              <MultipleErrorMessage name={'rpID3'} errors={errors} />
               <br />
               <br />
               <span id="form-label-hkid-guide">Example : X123456(A)</span>
@@ -260,6 +268,7 @@ const CustomerInfo = () => {
                         );
                       })}
                     </select>
+                    <MultipleErrorMessage name={'rpDobD'} errors={errors} />
                   </td>
                   <td valign="top">&nbsp;&nbsp;/&nbsp;&nbsp;</td>
                   <td valign="top">
@@ -283,6 +292,7 @@ const CustomerInfo = () => {
                         );
                       })}
                     </select>
+                    <MultipleErrorMessage name={'rpDobM'} errors={errors} />
                   </td>
                   <td valign="top">&nbsp;&nbsp;/&nbsp;&nbsp;</td>
                   <td valign="top">
@@ -305,6 +315,7 @@ const CustomerInfo = () => {
                         );
                       })}
                     </select>
+                    <MultipleErrorMessage name={'rpDobY'} errors={errors} />
                   </td>
                 </tr>
               </tbody>

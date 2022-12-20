@@ -38,21 +38,24 @@ const Declaration = () => {
         <Translate contentKey={'declaration.confirm'} />
       </div>
       {_.isEqual(docType, DOC_TYPE.PASSPORT) && (
-        <div className="row well form-pd check-box-container">
-          <div className="col-sm-1 col-2">
-            <input {...register('disclaimerNoHkid')} className="g-checkbox" name="disclaimerNoHkid" type="checkbox" required />
-          </div>
-          <div className="col-sm-11 col-10 txt-en">
-            <div className="check-box-text" id="declaration-no-hkid">
-              <Translate contentKey={'declaration.noHKID'} />
-              <span className="mandatory-star">*</span>
+        <>
+          <div className="row well form-pd check-box-container">
+            <div className="col-sm-1 col-2">
+              <input {...register('disclaimerNoHkid')} className="g-checkbox" name="disclaimerNoHkid" type="checkbox" />
+            </div>
+            <div className="col-sm-11 col-10 txt-en">
+              <div className="check-box-text" id="declaration-no-hkid">
+                <Translate contentKey={'declaration.noHKID'} />
+                <span className="mandatory-star">*</span>
+              </div>
             </div>
           </div>
-        </div>
+          <SingleErrorMessage name={'disclaimerNoHkid'} errors={errors} />
+        </>
       )}
       <div className="row well form-pd check-box-container">
         <div className="col-sm-1 col-2">
-          <input {...register('disclaimerOverAgeOf18')} className="g-checkbox" type="checkbox" required />
+          <input {...register('disclaimerOverAgeOf18')} className="g-checkbox" type="checkbox" />
         </div>
         <div className="col-sm-11 col-10 txt-en">
           <div className="check-box-text">
@@ -61,9 +64,10 @@ const Declaration = () => {
           </div>
         </div>
       </div>
+      <SingleErrorMessage name={'disclaimerOverAgeOf18'} errors={errors} />
       <div className="row well form-pd check-box-container">
         <div className="col-sm-1 col-2">
-          <input {...register('disclaimerPrivacyStatement')} className="g-checkbox" type="checkbox" required />
+          <input {...register('disclaimerPrivacyStatement')} className="g-checkbox" type="checkbox" />
         </div>
         <div className="col-sm-11 col-10 txt-en">
           <div className="check-box-text">
@@ -76,6 +80,7 @@ const Declaration = () => {
           </div>
         </div>
       </div>
+      <SingleErrorMessage errors={errors} name={'disclaimerPrivacyStatement'}></SingleErrorMessage>
     </>
   );
 };
