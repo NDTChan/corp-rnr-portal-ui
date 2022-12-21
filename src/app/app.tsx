@@ -2,7 +2,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './config/dayjs';
 import './app.scss';
 
-import { useAppSelector } from 'app/config/store';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import React from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import ErrorBoundary from 'app/shared/error/error-boundary';
@@ -19,11 +19,14 @@ import { IRnrSubmit } from './shared/model/rnr-submit.model';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yub from 'yup';
 import _ from 'lodash';
-import { DOC_TYPE } from 'app/config/constants';
+import { DOC_TYPE, NO, YES } from 'app/config/constants';
 import { checkAge, checkDigit, checkValidDate } from 'app/shared/util/common-utils';
+import { submitOcrResult } from 'app/shared/reducers/ocr-result';
+import { getParamStateWithQueryParams } from 'app/shared/util/entity-utils';
 
 export const App = () => {
   const currentLocale = useAppSelector(state => state.locale.currentLocale);
+  const dispatch = useAppDispatch();
   const validationSchema = yub
     .object({
       disclaimerNoChineseName: yub.ref('rpFamilyNameChi'),
@@ -141,12 +144,47 @@ export const App = () => {
       },
       [['rpGivenNameChi', 'rpFamilyNameChi']]
     );
-
   const methods = useForm({ resolver: yupResolver(validationSchema), criteriaMode: 'all' });
-  const onSubmit: SubmitHandler<IRnrSubmit> = data => {
-    console.log(data);
-  };
   const isUploadSuccess = useAppSelector(state => state.personal.uploaded);
+
+  const onSubmit: SubmitHandler<IRnrSubmit> = data => {
+    const rnrToken = getParamStateWithQueryParams('token', location.search);
+    const formData = toSubmissionFormData(data, rnrToken);
+    dispatch(submitOcrResult(formData));
+  };
+
+  const toSubmissionFormData = (data: IRnrSubmit, payloadId: string): FormData => {
+    const formData = new FormData();
+    formData.append('payloadId', payloadId);
+    formData.append('disclaimer', data.disclaimerOverAgeOf18 ? YES : NO);
+    formData.append('disclaimerStatment', data.disclaimerPrivacyStatement ? YES : NO);
+    formData.append('disclaimerNoHkid', data.disclaimerNoHkid ? YES : NO);
+    formData.append('disclaimerNoChineseName', data.disclaimerNoChineseName ? YES : NO);
+    const rnrInfo = toRnrInfoJson(data);
+    formData.append('rnrInfo', rnrInfo);
+    return formData;
+  };
+  const toRnrInfoJson = (data: IRnrSubmit): string => {
+    let rpDocType: string;
+    let rpDocNo: string;
+    if (_.isEqual(data.rpDocType, DOC_TYPE.PASSPORT)) {
+      rpDocType = DOC_TYPE.PASSPORT;
+      rpDocNo = data.rpPassport;
+    } else {
+      rpDocType = DOC_TYPE.HKID;
+      rpDocNo = data.rpID1 + data.rpID2 + '(' + data.rpID3 + ')';
+    }
+    return JSON.stringify({
+      rpFamilyNameEng: data.rpFamilyNameEng,
+      rpGivenNameEng: data.rpGivenNameEng,
+      rpFamilyNameChi: data.rpFamilyNameChi,
+      rpGivenNameChi: data.rpGivenNameChi,
+      rpDocType,
+      rpDocNo,
+      rpDob: data.rpDobD + '/' + data.rpDobM + '/' + data.rpDobY,
+    });
+  };
+
   return (
     <div className="app-container">
       <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
