@@ -3,6 +3,8 @@ import dayjs from 'dayjs';
 
 export const checkDigit = (charPart, numPart, checkDigit) => {
   console.log(charPart, numPart, checkDigit);
+  if (_.isUndefined(charPart)) return false;
+
   const strValidChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
   // calculate the checksum for character part

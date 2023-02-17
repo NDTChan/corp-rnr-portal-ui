@@ -1,0 +1,14 @@
+{
+  "validatorMsg": {
+    "wrongInformation": "Wrong Information: Please enter valid information",
+    "required": "Missing Mandatory Information: Please fill out this field",
+    "disclaimerNoHkid": "Missing Mandatory Information: Please fill out this field",
+    "englishLang": "Wrong Information: Please enter valid English name",
+    "chineseLang": "Wrong Information: Please enter valid Chinese name",
+    "extension": "Incorrect file format",
+    "fileSizeLimit": "File size must be less than 5 MB",
+    "docTypeSelected": "You need to choose <b>Identity Document First<b>",
+    "checkAgeAbove18": "Must be 18 years old or above",
+    "date": "Incorrect date format"
+  }
+}
